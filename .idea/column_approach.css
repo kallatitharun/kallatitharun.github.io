@@ -1,0 +1,27 @@
+body{text-align:center;width:800px;margin:auto}
+.content{text-align:center;border-style:solid;border-color:black;width:650px;margin-top:2em;margin-left:2em;margin-bottom:7em}
+.one{width:800px;height:65%;object-fit:cover;margin-bottom:0.5em}
+div.footer{text-align: center;width:650px;margin-top:2em;margin-left:2em;margin-bottom:2em}
+.two  {
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+  }
+  .three  {
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    font: italic normal  11.5pt Georgia, serif; margin-top:4px;margin-bottom:4px;
+
+  }
+#name{
+font: normal normal  50pt Georgia, serif; margin-top:4px;margin-bottom:4px;
+}
+#random {
+    font: italic normal  9pt Georgia, serif;margin-bottom:2em
+ }
+ a{
+  text-decoration:none;
+ color:#808080
+ }
+ #home{
+ color:black
+ }
