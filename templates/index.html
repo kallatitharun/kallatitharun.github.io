@@ -1,0 +1,56 @@
+<html>
+<body>
+<form>
+Keyword:<br>
+<input type="text" id="Keyword"><br>
+Distance(miles):<br>
+<input type="text" id="Distance"><br>
+Category:<br>
+<input type="text" id="Category"><br>
+Location:<br>
+<input type="text" id="Location"><br>
+<button type="button" onclick="submit_data()">Submit!</button>
+</form>
+</body>
+<script>
+    function submit_data(){
+        var Keyword=document.getElementById("Keyword")
+        var Distance=document.getElementById("Distance")
+        var Category=document.getElementById("Category")
+        var Location=document.getElementById("Location")
+        var data={
+            Keyword:Keyword.value,
+            Distance:Distance.value,
+            Category:Category.value,
+            Location:Location.value
+        };
+        {#fetch('${window.location}/index',{#}
+        {#method:"POST",#}
+        {#credentials:"include",#}
+        {#body:JSON.stringify(data),#}
+        {#headers: new Headers({#}
+        {#    'content-type':'application/json'#}
+        {##}
+        {#.then(function(response){#}
+        {#    if (response.status!==200)#}
+        {#    {#}
+        {#        console.log('REsponse status was not 200:${response.status}');#}
+        {#        return;#}
+        {#    }#}
+        {#    response.json().then(function(data){#}
+        {#        console.log(data)#}
+        {#    })#}
+        let request = new XMLHttpRequest();
+        request. open ("GET", "/index?Keyword=Keyword.value");
+        request.send();
+        request. onload = () => {
+            console.log(request);
+            if (request.status == 200) {
+                console.log(JSON.parse(request.response));
+            } else {
+                console.log('error ${request.status} {request.statusText}')
+            }
+        }
+    }
+</script>
+</html>
