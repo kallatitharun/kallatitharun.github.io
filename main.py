@@ -6,6 +6,8 @@ import requests
 app = Flask(__name__)
 
 
+# google maps API key AIzaSyAOrHBGg4_-fcqwZJdRDAi0ASke8xJBvaM
+# ipinfo token 1bbc38aae32625
 @app.route('/')
 def dum():
     return render_template('index.html')
@@ -13,7 +15,12 @@ def dum():
 
 @app.route('/index', methods=["GET"])
 def index():
-    url = 'https://api.yelp.com/v3/businesses/search?term=food&location=New York City/'
+    url = 'https://api.yelp.com/v3/businesses/search?'
+    radius = int(request.args.get('Distance'))
+    url += "term=" + request.args.get('Keyword') + "&" + "location=" + request.args.get(
+        'Location') + "&" + "radius=" + radius + "&" + "categories=" + request.args.get('Category') + "/"
+    print(url)
+
     weather_data = []
     # for city in cities:
     api_key = '33WBQVJnWSwjw0ZjehahyTJrMNYXI_48T9m4ghBkI1FCl-XEN5LeDKaSIXlGkWpwPKJCcCeZvPrauUgjIwVJlwaT2CCZ1XF2an6I8LoP4WQIniTeGK7BFsxM0vwsY3Yx'
@@ -26,30 +33,6 @@ def index():
 
 if __name__ == '__main__':
     app.run()
-
-# if __name__ == '__main__':
-#     # This is used when running locally only. When deploying to Google App
-#     # Engine, a webserver process such as Gunicorn will serve the app. You
-#     # can configure startup instructions by adding `entrypoint` to app.yaml.
-#     app.run(host='127.0.0.1', port=8080, debug=True)
-# # [END gae_python3_app]
-# # [END gae_python38_app]
-#
-#
-# from flask import Flask, render_template, request
-# # from flask_sqlalchemy import SQLAlchemy
-#
-# app = Flask(__name__)
-# # app.config['DEBUG'] = True
-# # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///weather.db'
-#
-# # db = SQLAlchemy(app)
-#
-#
-# # class City(db.Model):
-# #     id = db.Column(db.Integer, primary_key=True)
-# #     name = db.Column(db.String(50), nullable=False)
-#
 
 # @app.route('/', methods=['GET', 'POST'])
 # def index():
