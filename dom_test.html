@@ -1,0 +1,182 @@
+<html>
+<head>
+
+</head>
+<style>
+    table,td {
+  border: 1px solid black;
+}
+    th{
+        font: italic normal  11.5pt Georgia, serif; margin-top:4px;margin-bottom:4px;
+    }
+</style>
+<body>
+<div id="insert"></div>
+</body>
+<script>
+    var x=document.getElementById("insert")
+    var y=document.createElement("table")
+    y.setAttribute("id","mytable")
+    x.appendChild(y)
+    h=y.createTHead()
+    b=y.createTBody();
+    z = h.insertRow(0)
+    a = z.insertCell(0)
+    a.innerHTML = "Tharun"
+    var BusinessName1=z.insertCell(1)
+    BusinessName1.innerHTML = "BusinessName"
+    var Distance1=z.insertCell(2)
+    Distance1.innerHTML = "Udatha"
+    var heade1=b.insertRow(0)
+    var idie1 = heade1.insertCell(0)
+    idie1.innerHTML = "Pavana"
+    var imaege1=heade1.insertCell(1)
+    imaege1.innerHTML = "Hero"
+    var Rating1=heade1.insertCell(2)
+    Rating1.innerHTML = "zero"
+    // a.onclick=sortTable(0)
+    // BusinessName1.onclick=sortTable(1)
+    // Distance1.onclick=sortTable(2)
+
+    var heade2=b.insertRow(1)
+    var idie2 = heade2.insertCell(0)
+    idie2.innerHTML = "Pavani"
+    var imaege2=heade2.insertCell(1)
+    imaege2.innerHTML = "Heroine"
+    var Rating2=heade2.insertCell(2)
+    Rating2.innerHTML = "zeri"
+    table = document.getElementById("mytable");
+    var rowss = table.rows
+    rowss[0].getElementsByTagName("TD")[0].onclick=sortTable(0)
+    rowss[0].getElementsByTagName("TD")[1].onclick=sortTable(1)
+    rowss[0].getElementsByTagName("TD")[2].onclick=sortTable(2)
+
+    for (var n=0; n < rowss.length; n++)(function(n){
+        console.log(rowss[0].getElementsByTagName("TD")[n])
+        rowss[0].getElementsByTagName("TD")[n].onclick= function sortTable()
+        {
+            console.log(n)
+            var table;
+            table = document.getElementById("mytable");
+            var rows, i, r1, r2, count = 0;
+            var switching = true;
+
+            // Order is set as ascending
+            var direction = "ascending";
+            // Run loop until no switching is needed
+            while (switching) {
+            switching = false;
+            var rows = table.rows;
+
+            //Loop to go through all rows
+            for (i = 1; i < (rows.length - 1); i++) {
+                var Switch = false;
+
+                // Fetch 2 elements that need to be compared
+                r1 = rows[i].getElementsByTagName("TD")[n];
+                console.log(i,n,r1)
+                r2 = rows[i + 1].getElementsByTagName("TD")[n];
+
+                // Check the direction of order
+                if (direction == "ascending") {
+
+                    // Check if 2 rows need to be switched
+                    if (r1.innerHTML.toLowerCase() > r2.innerHTML.toLowerCase())
+                        {
+                        // If yes, mark Switch as needed and break loop
+                        Switch = true;
+                        break;
+                    }
+                } else if (direction == "descending") {
+
+                    // Check direction
+                    if (r1.innerHTML.toLowerCase() < r2.innerHTML.toLowerCase())
+                        {
+                        // If yes, mark Switch as needed and break loop
+                        Switch = true;
+                        break;
+                    }
+                }
+            }
+            if (Switch) {
+                // Function to switch rows and mark switch as completed
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+
+                // Increase count for each switch
+                count++;
+            } else {
+                // Run while loop again for descending order
+                if (count == 0 && direction == "ascending") {
+                    direction = "descending";
+                    switching = true;
+                }
+            }
+            }
+            }
+    })(n);
+
+    console.log(rowss[0].getElementsByTagName("TD")[1])
+    function sortTable(n)
+    {
+        console.log(n)
+        var table;
+        table = document.getElementById("mytable");
+        var rows, i, r1, r2, count = 0;
+        var switching = true;
+
+        // Order is set as ascending
+        var direction = "ascending";
+        // Run loop until no switching is needed
+        while (switching) {
+            switching = false;
+            var rows = table.rows;
+
+            //Loop to go through all rows
+            for (i = 1; i < (rows.length - 1); i++) {
+                var Switch = false;
+
+                // Fetch 2 elements that need to be compared
+                r1 = rows[i].getElementsByTagName("TD")[n];
+                console.log(r1)
+                r2 = rows[i + 1].getElementsByTagName("TD")[n];
+
+                // Check the direction of order
+                if (direction == "ascending") {
+
+                    // Check if 2 rows need to be switched
+                    if (r1.innerHTML.toLowerCase() > r2.innerHTML.toLowerCase())
+                        {
+                        // If yes, mark Switch as needed and break loop
+                        Switch = true;
+                        break;
+                    }
+                } else if (direction == "descending") {
+
+                    // Check direction
+                    if (r1.innerHTML.toLowerCase() < r2.innerHTML.toLowerCase())
+                        {
+                        // If yes, mark Switch as needed and break loop
+                        Switch = true;
+                        break;
+                    }
+                }
+            }
+            if (Switch) {
+                // Function to switch rows and mark switch as completed
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+
+                // Increase count for each switch
+                count++;
+            } else {
+                // Run while loop again for descending order
+                if (count == 0 && direction == "ascending") {
+                    direction = "descending";
+                    switching = true;
+                }
+            }
+        }
+    }
+</script>
+</html>
