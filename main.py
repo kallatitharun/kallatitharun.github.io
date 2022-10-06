@@ -4,7 +4,7 @@ import json
 
 # If `entrypoint` is not defined in app.yaml, App Engine will look for an app
 # called `app` in `main.py`.
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='')
 
 
 # google maps API key AIzaSyAOrHBGg4_-fcqwZJdRDAi0ASke8xJBvaM
@@ -13,7 +13,7 @@ app = Flask(__name__)
 # ipinfo token 1bbc38aae32625
 @app.route('/')
 def dum():
-    return send_from_directory("/Users/admin/Documents/GitHub/kallatitharun.github.io/static", 'index.html')
+    return app.send_static_file("index.html")
 
 
 @app.route('/lookup/', methods=["GET"])
