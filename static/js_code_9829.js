@@ -7,13 +7,13 @@ function submit_data(event)
 {
     Keyword=document.getElementById("Keyword")
     Distance=document.getElementById("Distance")
-    Distance.value=Distance*1609.34
+    Distance.value=Math.round(Distance.value*1609.34)
     console.log(Distance)
     Category=document.getElementById("Category")
     Location=document.getElementById("Location")
     console.log(Keyword.value,Distance.value,Category.value,Location.value)
-    var lat=0
-    var lng=0
+    // var lat=0
+    // var lng=0
     console.log(document.getElementById('ipinfo').checked,document.getElementById('ipinfo'))
     if (document.getElementById('ipinfo').checked) {
             let ip_details = new XMLHttpRequest();
@@ -22,6 +22,15 @@ function submit_data(event)
             if (ip_details.status == 200) {
                 console.log(JSON.parse(ip_details.response));
                 obj1 = JSON.parse(ip_details.response)
+                if(obj1.status!="OK")
+                {
+                    x=document.getElementById("insert")
+                     x.style.textAlign="Center"
+                    x.style.alignContent="Center"
+                    x.innerHTML="No Record has been found"
+
+                    return
+                }
                 temp = obj1.loc
                 temp.toString()
                 temp2 = temp.split(',')
@@ -30,6 +39,15 @@ function submit_data(event)
                 console.log(lat, lng)
             }
             else {
+                if(obj1.status!="OK")
+                {
+                    x=document.getElementById("insert")
+                     x.style.textAlign="Center"
+                    x.style.alignContent="Center"
+                    x.innerHTML="No Record has been found"
+
+                    return
+                }
                 console.log('error ${request.status} {request.statusText}')
             }
 
@@ -58,7 +76,7 @@ function submit_data(event)
     function usethis(){
         let request = new XMLHttpRequest();
         console.log(lat, lng)
-        request.open("GET", "/index?Keyword=" + Keyword.value + "&Distance=" + Distance.value + "&Category=" + Category.value + "&lat=" + lat + "&lng=" + lng);
+        request.open("GET", "/index?Keyword=" + Keyword.value + "&Distance=" + Distance.value + "&Category=" + Category.value+ "&lat=" + lat + "&lng=" + lng);
         request.send();
         request.onload = () => {
             console.log(request);
@@ -77,18 +95,31 @@ function submit_data(event)
                 imaege.innerHTML = "Image"
                 var BusinessName = heade.insertCell(2)
                 BusinessName.style.width="800px"
+                BusinessName.style.cursor="pointer"
+
                 BusinessName.innerHTML = "BusinessName"
                 var Rating = heade.insertCell(3)
                 Rating.innerHTML = "Rating"
+                Rating.style.cursor="pointer"
                 Rating.style.width="200px"
                 var Distance = heade.insertCell(4)
                 Distance.style.width="200px"
+               Distance.style.cursor="pointer"
                 Distance.innerHTML = "Distance(miles)"
                 heade.style.padding = "100px";
                 heade.style.backgroundColor = "#4e6fac";
                 heade.style.height="75px"
 
                 yup=temp3['BusinessName']
+                if (temp3.length==0)
+                {
+                    x.style.textAlign="Center"
+                    x.style.alignContent="Center"
+                    x.innerHTML="No Record has been found"
+
+
+                    return
+                }
                 for (var i = 1; i <= temp3.length; i++) {
                     var heade1 = y.insertRow(i)
 
@@ -101,13 +132,21 @@ function submit_data(event)
                     img1.height='150'
                     imaege1.appendChild(img1)
                     var BusinessName1 = heade1.insertCell(2)
-                    BusinessName1.innerHTML = temp3[i - 1].BusinessName
+
+                    // BusinessName1.innerHTML = temp3[i - 1].BusinessName
+                    var span_iter=document.createElement("SPAN");
+                    span_iter.innerHTML = temp3[i - 1].BusinessName
+                    // BusinessName1.innerHTML=span_iter
+                    span_iter.setAttribute("class","span_iter_class")
+                    span_iter.style.cursor="pointer"
+                    span_iter.style.hover="light gray"
+                    BusinessName1.appendChild(span_iter)
                     var Rating1 = heade1.insertCell(3)
                     Rating1.innerHTML = temp3[i - 1].Rating
                     var Distance1 = heade1.insertCell(4)
                     Distance1.innerHTML = Math.round(((temp3[i - 1]['Distance']/1609.34)*100))/100
-
                 }
+                Go_insert()
                 var rowees = document.getElementById("mytable")
                 var rowes = rowees.rows
                 console.log("hello")
@@ -165,8 +204,10 @@ function submit_data(event)
                     };
                 for (var i = 0; i < temp3.length; i++) (function (i) {
                     console.log(rowes[i])
-                    rowes[i+1].cells[2].onclick=Go_insert_here
-                    rowes[i+1].onclick = function get_details() {
+
+                    // var temp_for_biz=rowes[i+1].cells[2].get
+                    // rowes[i+1].cells[2].getElementsByTagName("P")
+                        rowes[i+1].cells[2].onclick = function get_details() {
                         let request = new XMLHttpRequest();
                         request.open("GET", "/businesssearch?idie=" + temp3[i].idie);
                         request.send();
@@ -302,19 +343,24 @@ function submit_data(event)
                                     let num=i
                                     var temp=document.getElementById('img_'+num.toString())
                                     // alert('img_'+num.toString(),photos[i])
+                                    temp.style.border="1px solid #999ca0"
                                     var temp_img=document.createElement('img');
-                                    temp_img.style.border="1px solid #999ca0"
                                     temp_img.style.margin="3px"
                                     temp_img.src=photos[i]
-                                    temp_img.width='221'
-                                    temp_img.height='250'
+                                    // temp_img.width='221'
+                                    // temp_img.height='250'
+                                    temp_img.style.maxHeight='260px'
+                                    temp_img.style.minWidth='222px'
+                                    temp_img.style.maxWidth='223px'
                                     temp.appendChild(temp_img)
                                 }
+                                Go_insert_here()
                             } else {
                                 console.log('error ${request.status} {request.statusText}')
                             }
                         }
                     }
+                    // rowes[i+1].cells[2].onclick=Go_insert_here
                 })(i);
             } else {
                 console.log('error ${request.status} {request.statusText}')
@@ -335,10 +381,9 @@ function clear_all(){
     document.getElementById('Location').disabled=0
 }
 
-form.addEventListener('submit',Go_insert)
 function Go_insert(){
-        document.getElementById('h_goToInsert').click()
+        document.getElementById('insert').scrollIntoView(true)
     }
 function Go_insert_here(){
-     document.getElementById('h_goToInsertHere').click()
-}
+     var temp=document.getElementById('insert_here')
+         temp.scrollIntoView(true)};

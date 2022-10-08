@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-p{
-font: normal normal Bold  20pt Georgia, serif; color:#000000
-}
-    </style>
-</head>
 <body>
-<p id="Home">Home</p>
-<p id="Nature">Nature</p>
-<p id="Urban">Urban</p>
-<p id="Bio">Bio</p>
+<style>
+div {
+padding:50px;
+background-color: Tomato;
+color: white;
+}
+</style>
+<script>
+function myFunction(event) {
+var x = document.createEvent("MouseEvent");
+x.initMouseEvent("mouseover", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+document.getElementById("myDiv").dispatchEvent(x);
+}
+</script>
+<div onmouseover="this.innerHTML += '*';" id="myDiv">*</div>
+<br>
+<button onclick="myFunction(event)">Try It</button>
 </body>
+</html>
