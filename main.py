@@ -24,7 +24,7 @@ def lookup():
     print(url)
     r = requests.get(url)
     res = r.json()
-    return res['results'][0]['geometry']['location']
+    return res
 
 
 @app.route('/index/', methods=["GET"])

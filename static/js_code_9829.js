@@ -5,6 +5,7 @@ document.getElementById('ipinfo').onchange = function() {
 
 function submit_data(event)
 {
+    event.preventDefault();
     Keyword=document.getElementById("Keyword")
     Distance=document.getElementById("Distance")
     Distance.value=Math.round(Distance.value*1609.34)
@@ -22,15 +23,6 @@ function submit_data(event)
             if (ip_details.status == 200) {
                 console.log(JSON.parse(ip_details.response));
                 obj1 = JSON.parse(ip_details.response)
-                if(obj1.status!="OK")
-                {
-                    x=document.getElementById("insert")
-                     x.style.textAlign="Center"
-                    x.style.alignContent="Center"
-                    x.innerHTML="No Record has been found"
-
-                    return
-                }
                 temp = obj1.loc
                 temp.toString()
                 temp2 = temp.split(',')
@@ -39,15 +31,15 @@ function submit_data(event)
                 console.log(lat, lng)
             }
             else {
-                if(obj1.status!="OK")
-                {
-                    x=document.getElementById("insert")
-                     x.style.textAlign="Center"
-                    x.style.alignContent="Center"
-                    x.innerHTML="No Record has been found"
-
-                    return
-                }
+                // if(obj1.status!="OK")
+                // {
+                //     x=document.getElementById("insert")
+                //      x.style.textAlign="Center"
+                //     x.style.alignContent="Center"
+                //     x.innerHTML="No Record has been found"
+                //
+                //     return
+                // }
                 console.log('error ${request.status} {request.statusText}')
             }
 
@@ -57,19 +49,29 @@ function submit_data(event)
             var ip_details = new XMLHttpRequest();
             ip_details.open("GET", "/lookup?address=" + document.getElementById('Location').value,false);
             ip_details.send();
-                if (ip_details.status == 200)
-                {
+                // if (ip_details.status == 200)
+                // {
+
                     obj2 = JSON.parse(ip_details.response)
                     console.log(obj2)
-                    lat=obj2.lat
-                    lng=obj2.lng
-                    temp2 = [obj2.lat, obj2.lng]
+                    if(obj2["status"]!="OK")
+                    {
+                    x=document.getElementById("insert")
+                     x.style.textAlign="Center"
+                    x.style.alignContent="Center"
+                    x.innerHTML="No Record has been found"
+                    return
+                     }
+                    console.log(obj2)
+                    lat=obj2['results'][0]['geometry']['location']['lat']
+                    lng=obj2['results'][0]['geometry']['location']['lng']
+                    // temp2 = [obj2.lat, obj2.lng]
                     console.log(lat,lng)
-                }
-                else
-                {
-                    console.log('error ${request.status} {request.statusText}')
-                }
+                // }
+                // else
+                // {
+                //     console.log('error ${request.status} {request.statusText}')
+                // }
             }
 
     usethis()
@@ -345,6 +347,7 @@ function submit_data(event)
                                     // alert('img_'+num.toString(),photos[i])
                                     temp.style.border="1px solid #999ca0"
                                     var temp_img=document.createElement('img');
+                                    var temp_div=document.createElement('DIV');
                                     temp_img.style.margin="3px"
                                     temp_img.src=photos[i]
                                     // temp_img.width='221'
@@ -353,6 +356,10 @@ function submit_data(event)
                                     temp_img.style.minWidth='222px'
                                     temp_img.style.maxWidth='223px'
                                     temp.appendChild(temp_img)
+                                    temp_div.innerHTML='Photo_'+num.toString()
+                                    temp_div.style.bottom="0"
+
+                                    temp.append(temp_div)
                                 }
                                 Go_insert_here()
                             } else {
@@ -368,7 +375,7 @@ function submit_data(event)
 
         }
     }
-    event.preventDefault();
+
 }
 const form=document.getElementById('form')
 form.addEventListener('submit',submit_data)
