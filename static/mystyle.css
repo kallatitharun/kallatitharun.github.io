@@ -109,7 +109,7 @@ body{
 
   #div1{
     color: white;
-    height: 23%;
+    height: auto;
     padding: 0%;
     background-image: url('./banner.jpeg');
     background-size: 100% 250%;
@@ -130,7 +130,9 @@ body{
       font-family: sans-serif;
       padding-bottom:30px;
   }
-
+#form-div{
+    height:auto;
+}
   #Keyword, #Location{
   width: 90%;
   padding: 10px 10px;
@@ -199,6 +201,7 @@ body{
     text-align: center;
     display: inline-block;
     box-shadow: 0 5px #374975;
+
    }
 
    .reset-btn{
